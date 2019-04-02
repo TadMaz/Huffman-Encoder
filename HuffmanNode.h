@@ -3,10 +3,11 @@
 #ifndef HUFFMANNODE_H
 #define HUFFMANNODE_H
 
+#include <memory>
 // a class representing a Huffman Tree node
 
-namespace MZRTAD001
-{
+namespace MZRTAD001{
+
     class HuffmanNode
     {
     private:
@@ -16,20 +17,22 @@ namespace MZRTAD001
         std::shared_ptr<HuffmanNode> right; 
 
     public:
-        HuffmanNode(/* args */);
-        ~HuffmanNode();
+        HuffmanNode(char charctr, int freq, std::shared_ptr <HuffmanNode> lhs, std::shared_ptr<HuffmanNode> rhs  );
+        
+        HuffmanNode(char charctr, int freq);
+        
+        int getFrequency();
+
+        char getCharacter();
+
+        std::shared_ptr<HuffmanNode> getLeft();
+
+        std::shared_ptr<HuffmanNode> getRight();
+
+        void setLeft(std::shared_ptr<HuffmanNode> rhs);
+
+        void setRight(std::shared_ptr<HuffmanNode> rhs);
     };
-    
-    //constructor 
-    HuffmanNode::HuffmanNode(/* args */)
-    {
 
-    }
-    
-    //destructor
-    HuffmanNode::~HuffmanNode()
-    {
-
-    }
-    
-} // MZRTAD001
+}
+#endif
