@@ -20,6 +20,12 @@ namespace MZRTAD001{
         HuffmanNode(char charctr, int freq, std::shared_ptr <HuffmanNode> lhs, std::shared_ptr<HuffmanNode> rhs  );
         
         HuffmanNode(char charctr, int freq);
+
+        HuffmanNode(HuffmanNode& other );
+
+        HuffmanNode(HuffmanNode&& oldNode);
+
+        ~HuffmanNode();
         
         int getFrequency();
 

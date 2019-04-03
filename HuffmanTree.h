@@ -6,6 +6,7 @@
 #include <memory>
 #include "HuffmanNode.h"
 #include <unordered_map>
+#include <vector>
 
 namespace MZRTAD001
 {   
@@ -13,6 +14,7 @@ namespace MZRTAD001
     {
     private:
         std::shared_ptr<MZRTAD001::HuffmanNode> root;
+        std::unordered_map<char,std::string> encoder;
 
     public:
         HuffmanTree(); 
@@ -21,8 +23,16 @@ namespace MZRTAD001
         void buildTree(std::unordered_map<char,int> charFreqMap);
         // build the Huffman Tree
 
-        void compressData();
+        void constructCodes(std::string code, std::shared_ptr<MZRTAD001::HuffmanNode> node);
+
+        std::shared_ptr<MZRTAD001::HuffmanNode> getRoot();
+
+        std::unordered_map<char,std::string>* getEncoder();
+
+        std::string compressData(std::vector<std::string>& textLines,std::unordered_map<char,std::string>& encoder);
         //compress data
+
+        void writeOutput(std::string& buffer , std::string fileName);
     };
 
     class CompareNodes{

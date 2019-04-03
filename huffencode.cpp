@@ -12,6 +12,10 @@ int main(int argv , char*argc[] ){
     vector<string> textLines;
     unordered_map<char,int> char_freq_map;
 
+
+    //File Names
+
+    string fileName = "Outfile";
     //Huffman Tree
      MZRTAD001::HuffmanTree tree;
 
@@ -29,6 +33,20 @@ int main(int argv , char*argc[] ){
 
         //Build The Huffman Tree
         tree.buildTree(char_freq_map);
+        tree.constructCodes("",tree.getRoot());
+
+        unordered_map<char, string>* encode = tree.getEncoder();
+
+        std::unordered_map<char,string>::iterator it;
+
+        for( it = encode->begin(); it!= encode->end(); it++){
+            cout<<it->first<<" "<<it->second<<endl;
+        }
+
+        string buffer = tree.compressData(textLines,*encode);
+
+        tree.writeOutput(buffer, fileName);
+        
     }
 
 

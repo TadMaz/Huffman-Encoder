@@ -3,9 +3,7 @@
 
 #include <fstream>
 #include <iostream>
-#include <unordered_map>
 #include <string>
-#include <vector>
 #include "HuffmanTree.h"
 
 namespace MZRTAD001{
