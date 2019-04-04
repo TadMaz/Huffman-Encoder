@@ -46,6 +46,12 @@ int main(int argv , char*argc[] ){
         string buffer = tree.compressData(textLines,*encode);
 
         tree.writeOutput(buffer, fileName);
+
+        tree.writeHeader(*encode,fileName);
+
+        tree.writeBitstream(buffer,fileName);
+
+        tree.readBitstream(fileName);
         
     }
 

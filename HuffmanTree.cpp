@@ -11,6 +11,7 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
+#include <bitset>
 
 using namespace std;
 
@@ -125,13 +126,114 @@ namespace MZRTAD001{
 
         //open output file
         //string filename = "Outfile.hdr";
-        outfile.open(fileName+".hdr");
+        outfile.open(fileName);
 
         if(!outfile){
             cerr<<"Failed to open file : "<<fileName<<" to write code table"<<endl;
             return;
         }
         outfile<<buffer.c_str();
+
+        outfile.close();
+    }
+
+    void HuffmanTree::writeHeader(std::unordered_map<char,std::string>& encoder, std::string fileName){
+        
+        //initialise file output stream
+        ofstream outfile;
+
+        //open output file
+        outfile.open(fileName+".hdr");
+        outfile<<encoder.size()<<endl;
+
+        for(const auto &n: encoder){
+            outfile<<n.first<<" | "<<n.second<<endl;
+        }
+    }
+
+    void HuffmanTree::writeBitstream(std::string buffer , std::string fileName){
+
+        // The Output Stream
+        ofstream outfile;
+
+        //open output file
+        outfile.open(fileName+".bin");
+
+        cout<<"Writing bit stream to bin file ..."<<endl;
+
+        //Number of bits and bytes required.
+        int noOfBits = buffer.size();
+        int noOfBytes = noOfBits/8 + (noOfBits%8 ? 1 : 0);
+
+        char bitStream[noOfBytes];
+
+        // initialise to stream of zeros
+        for(int i = 0; i<noOfBytes; i++){
+            bitStream[i] = 0;
+        }
+        
+        // Iterate through the bits in buffer
+        int byteNo;    
+        int shift;
+
+        for(int i = 0; i < noOfBits; i++){
+         
+            byteNo = i/8;
+            shift = i%8;
+            //convert bit at this position to match the output string - shift is dependant on 
+            //index in output sting.
+            if (buffer[i] == '1'){
+
+                bitStream[byteNo] |= 1 << (7-shift);
+            }
+        }
+        
+        // print the header and bitstream
+
+        outfile<< noOfBits<<endl;
+        for (int i =0; i < noOfBytes; i++){
+            bitset<8> stream(bitStream[i]);
+
+            if(i==noOfBytes-1){
+                outfile << stream;
+            }
+            outfile << stream <<" ";
+        }
+    }
+
+    void HuffmanTree::readBitstream(std::string fileName){
+
+        //Open file for reading
+
+        //Get number of bits and create 
+
+        ifstream inFile;
+        int noOfBits;
+        int noOfBytes;
+        
+        inFile.open(fileName+".bin");
+        if (!inFile) {
+            cerr << "Unable to open file "<<fileName<<endl;
+            exit(1); // terminate with error
+        }
+        
+        inFile>>noOfBits;
+        cout<<noOfBits<<endl;
+
+        string unpackedStream;
+        char currentBit;
+        int counter = noOfBits;
+
+        while (!inFile.eof()) {
+            inFile>>currentBit>>ws;
+            unpackedStream+= currentBit;
+            counter++;
+        }
+        
+        inFile.close();
+
+        cout<< unpackedStream<<endl;
+        cout<<counter<<endl;
     }
 
     //define how to compare nodes

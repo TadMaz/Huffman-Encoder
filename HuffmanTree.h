@@ -33,6 +33,12 @@ namespace MZRTAD001
         //compress data
 
         void writeOutput(std::string& buffer , std::string fileName);
+
+        void writeHeader(std::unordered_map<char, std::string>& encoder, std::string fileName);
+
+        void writeBitstream(std::string buffer, std::string fileName);
+
+        void readBitstream(std::string fileName);
     };
 
     class CompareNodes{
